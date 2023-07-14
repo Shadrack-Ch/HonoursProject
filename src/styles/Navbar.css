@@ -1,9 +1,15 @@
 .navbar {
+    /* height: 85px;
+    display: flex;
+    justify-content: space-between;
+    padding: 0.2rem calc((100vw - 1000px) / 2);
+    z-index: 12; */
     display: flex;
     align-items: center;
     justify-content: space-between;
     background-color: #f2f2f2;
     padding: 10px 20px;
+    
   }
   
   .logo img {

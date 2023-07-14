@@ -11,7 +11,7 @@ function NavBar() {
   };
 
   return (
-    <nav>
+    <nav className="navbar">
       <div className="logo">
         <img src={logo} alt="User Icon" />
       </div>
