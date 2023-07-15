@@ -32,7 +32,7 @@ function NavBar() {
           </li>
         </ul>
       </div>
-      <button className="hamburger" onClick={handleMenuToggle}>
+      <button className={`hamburger ${isMenuOpen ? 'open' : ''}`} onClick={handleMenuToggle}>
         <span></span>
         <span></span>
         <span></span>
