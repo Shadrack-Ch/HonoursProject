@@ -1,0 +1,193 @@
+- signinForm.js
+// components/SignInForm.js
+import React, { useState } from 'react';
+
+const SignInForm = () => {
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSignIn = async (e) => {
+    e.preventDefault();
+
+    try {
+      // Send sign-in request to the backend API
+      const response = await fetch('/api/signin', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ email, password }),
+      });
+
+      if (response.ok) {
+        // User sign-in was successful
+        // Redirect to the home page or perform any necessary actions
+        console.log('Sign-in successful!');
+      } else {
+        // User sign-in failed
+        // Display an error message to the user
+        console.log('Sign-in failed!');
+      }
+    } catch (error) {
+      console.error('Error during sign-in:', error);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSignIn}>
+      {/* Input fields for email and password */}
+      {/* ... */}
+      <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        /> <p/>
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        /> <p/>
+      <button type="submit">Sign In</button>
+    </form>
+  );
+};
+
+export default SignInForm;
+
+- SignUpForm.js
+
+// components/SignUpForm.js
+import React, { useState } from 'react';
+
+const SignUpForm = () => {
+  const [username, setUsername] = useState('');
+  const [email, setEmail] = useState('');
+  const [password, setPassword] = useState('');
+
+  const handleSignUp = async (e) => {
+    e.preventDefault();
+
+    try {
+      // Send sign-up request to the backend API
+      const response = await fetch('/api/signup', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({ username, email, password }),
+      });
+
+      if (response.ok) {
+        // User sign-up was successful
+        // Redirect to the home page or display a success message
+        console.log('Sign-up successful!');
+      } else {
+        // User sign-up failed
+        // Display an error message to the user
+        console.log('Sign-up failed!');
+      }
+    } catch (error) {
+      console.error('Error during sign-up:', error);
+    }
+  };
+
+  return (
+    <form onSubmit={handleSignUp} className="signup-form">
+      {/* Input fields for username, email, and password */}
+      {/* ... */}
+      <input
+          type="text"
+          placeholder="Username"
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
+        /> <p/>
+        <input
+          type="email"
+          placeholder="Email"
+          value={email}
+          onChange={(e) => setEmail(e.target.value)}
+        /> <p/>
+        <input
+          type="password"
+          placeholder="Password"
+          value={password}
+          onChange={(e) => setPassword(e.target.value)}
+        /> <p/>
+      <button type="submit">Sign Up</button>
+    </form>
+  );
+};
+
+export default SignUpForm;
+
+- Navbar.js
+
+import React, { useState } from 'react';
+import { Link } from 'react-router-dom';
+import '../styles/Navbar.css';
+import logo from '../images/Profile_avatar_placeholder_large.png'
+
+function NavBar() {
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+
+  const handleMenuToggle = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  return (
+    <nav className="navbar">
+      <div className="logo">
+        <img src={logo} alt="User Icon" />
+      </div>
+      <div className="search-bar">
+        <input type="text" placeholder="Search..." />
+        <button type="button">Search</button>
+      </div>
+      <div className={`menu ${isMenuOpen ? 'open' : ''}`}>
+        <ul>
+          <li>
+            <Link to="/">Home</Link>
+          </li>
+          <li>
+            <Link to="/signin">Login</Link>
+          </li>
+          <li>
+            <Link to="/signup">Sign Up</Link>
+          </li>
+        </ul>
+      </div>
+      <button className={`hamburger ${isMenuOpen ? 'open' : ''}`} onClick={handleMenuToggle}>
+        <span></span>
+        <span></span>
+        <span></span>
+      </button>
+    </nav>
+  );
+}
+
+export default NavBar;
+
+- App.js
+
+// App.js
+import React from 'react';
+import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
+import Home from './pages/Home'; // <Route exact path='/' element={<Home/>} />
+import SignUp from './pages/signup';
+import SignIn from './pages/signin';
+
+const App = () => {
+  return (
+    <Router>
+      <Routes>
+        
+        <Route path='/signup' element={<SignUp/>} />
+        <Route path='/signin' element={<SignIn/>} />
+      </Routes>
+    </Router>
+  );
+};
+
+export default App;

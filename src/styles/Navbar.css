@@ -76,3 +76,49 @@
     color: #333;
   }
   
+  .navbar {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    background-color: #f2f2f2;
+    padding: 10px 20px;
+    z-index: 1; /* Ensure the navbar is above other elements */
+  }
+  
+  .dropdown-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    background-color: #f2f2f2;
+    padding: 10px;
+    border: 1px solid #ccc;
+    border-radius: 4px;
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .dropdown-menu a {
+    margin-bottom: 10px;
+    color: #333;
+    text-decoration: none;
+  }
+  
+  .dropdown-menu p {
+    color: #333;
+    margin: 0;
+  }
+  
+  /* Add some space between the icons */
+  .logo, .notification-icon {
+    margin-right: 20px;
+  }
+  
+  .logo img, .notification-icon img {
+    cursor: pointer;
+  }
+  
+  /* Rest of your styles... */
+  
