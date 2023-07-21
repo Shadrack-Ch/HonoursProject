@@ -1,70 +1,93 @@
-# Getting Started with Create React App
+### **Design Document for Web Application Productivity System For Students with Attention Disorder**
 
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+---
 
-## Available Scripts
+#### **Title of the Project:**
+Web Application Productivity System for Students with ADHD
 
-In the project directory, you can run:
+---
 
-### `npm start`
+#### **Problem Statement:**
+Students with ADHD often face challenges in organizing and tracking tasks, assignments, and deadlines for their academic courses. This difficulty can lead to feeling overwhelmed, missing essential deadlines, and an overall decrease in academic performance.
 
-Runs the app in the development mode.\
-Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
+---
 
-The page will reload when you make changes.\
-You may also see any lint errors in the console.
+#### **Project Scope:**
+The objective is to build a centralized web application where students can efficiently organize and track tasks specific to each class. They can maintain sections for materials, resources, assignments, due dates, and potentially integrate a full-fledged calendar. Technologies in focus:
+- Frontend: React.js
+- Backend: Node.js/Express
+- Database: MongoDB
+- Deployment: Heroku
 
-### `npm test`
+---
 
-Launches the test runner in the interactive watch mode.\
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+#### **Motivation:**
+Offer a simplified, structured, and centralized location for ADHD students to mitigate the overwhelming process of tracking class-specific tasks and deadlines. By organizing data by class and urgency, students can prioritize and streamline their academic activities efficiently.
 
-### `npm run build`
+---
 
-Builds the app for production to the `build` folder.\
-It correctly bundles React in production mode and optimizes the build for the best performance.
+#### **Main Objectives:**
+- Enhance the capability of ADHD students to meet their academic deadlines.
+- Facilitate effortless access to academic materials and resources.
 
-The build is minified and the filenames include the hashes.\
-Your app is ready to be deployed!
+---
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+#### **Equipment & Technologies Required:**
+- Full Stack Development
+- Frontend: React.js
+- Backend: Node.js/Express
+- Database: MongoDB
+- Deployment: Heroku
 
-### `npm run eject`
+---
 
-**Note: this is a one-way operation. Once you `eject`, you can't go back!**
+#### **Requirements for the Project:**
 
-If you aren't satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+| #  | Requirement                                  | Description                                                                                                                         | Priority  |
+|----|----------------------------------------------|-------------------------------------------------------------------------------------------------------------------------------------|-----------|
+| 1  | User Authentication System                   | Allow students to securely sign up and log into the platform.                                                                       | High      |
+| 2  | Course/Class Creation                        | Ability to add a class or course, specifying the name, timeframe (winter, summer, fall), and other essential details.               | High      |
+| 3  | Resource Management                          | Allow users to add, edit, or remove links to resources (e.g., Books, course websites, additional resources).                        | High      |
+| 4  | Assignment & Test Tracking                   | Facility to add, modify, or remove assignments with their respective deadlines and tests with their schedules.                      | High      |
+| 5  | Modular Data Management                       | Students should be able to modify or remove class/course objects, resources, and associated details anytime.                        | High      |
+| 6  | Optional Calendar Integration                | (Optional) Integration of a full-fledged calendar to visually track tasks, assignments, and test dates.                             | Medium    |
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you're on your own.
+---
 
-You don't have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn't feel obligated to use this feature. However we understand that this tool wouldn't be useful if you couldn't customize it when you are ready for it.
+#### **Milestones:**
 
-## Learn More
+1. **Milestone 1:** Setup and Project Initialization
+   - Configure the development environment.
+   - Set up React.js for frontend, Node.js/Express for the backend, MongoDB for database, and Heroku for deployment.
+   
+2. **Milestone 2:** User Authentication System
+   - Implement sign-up and log-in functionality.
+   - Ensure secure data storage and password hashing.
+   - Test user registration and authentication.
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+3. **Milestone 3:** Course/Class Module Development
+   - Design and integrate the course/class addition module.
+   - Allow resource link integration and assignment/test date tracking.
+   - Test course/class module thoroughly.
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+4. **Milestone 4:** Resource Management System
+   - Develop the functionality to add, edit, or remove resource links.
+   - Test link addition, removal, and editing functions.
 
-### Code Splitting
+5. **Milestone 5:** Assignment & Test Tracking
+   - Design and implement the feature to add, modify, or remove assignments/tests and their respective dates.
+   - Thorough testing of the tracking system.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/code-splitting](https://facebook.github.io/create-react-app/docs/code-splitting)
+6. **Milestone 6:** Optional Features & Final Touches
+   - Optionally, add a calendar integration feature.
+   - Finalize UI/UX improvements.
+   - Conduct comprehensive testing of the entire platform.
 
-### Analyzing the Bundle Size
+7. **Milestone 7:** Deployment & Final Testing
+   - Deploy the application on Heroku.
+   - Conduct end-to-end testing in the live environment.
+   - Address any last-minute bugs or issues.
 
-This section has moved here: [https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size](https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size)
+---
 
-### Making a Progressive Web App
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app](https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app)
-
-### Advanced Configuration
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/advanced-configuration](https://facebook.github.io/create-react-app/docs/advanced-configuration)
-
-### Deployment
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/deployment](https://facebook.github.io/create-react-app/docs/deployment)
-
-### `npm run build` fails to minify
-
-This section has moved here: [https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify](https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify)
+Adjustments can be made based on timelines, available resources, and other specific factors related to the project.

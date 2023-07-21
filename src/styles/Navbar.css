@@ -2,8 +2,22 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
-    background-color: #f2f2f2;
+    background-color: yellow;
     padding: 10px 20px;
+    
+    top: 0;
+  }
+
+  .navbar {
+    /* position: fixed;
+    top: 0; */
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    /* background-color: #f2f2f2; */
+    padding: 10px 20px;
+     z-index: 1; /*Ensure the navbar is above other elements  */
   }
   
   .logo img {
@@ -76,17 +90,7 @@
     color: #333;
   }
   
-  .navbar {
-    position: fixed;
-    top: 0;
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    background-color: #f2f2f2;
-    padding: 10px 20px;
-    z-index: 1; /* Ensure the navbar is above other elements */
-  }
+  
   
   .dropdown-menu {
     position: absolute;
@@ -118,6 +122,9 @@
   
   .logo img, .notification-icon img {
     cursor: pointer;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
   }
   
   /* Rest of your styles... */
