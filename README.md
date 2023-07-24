@@ -173,5 +173,3 @@ Offer a simplified, structured, and centralized location for ADHD students to mi
 - [ ] Seek feedback from users and make iterative improvements.
 
 ---
-
-While the above list covers the main steps involved, the complexity and scope of your project may require adjustments. Remember, developing a full-fledged web application requires frequent reviews, testing, and iterations. It's essential to stay agile, embrace feedback, and be prepared for unexpected challenges.
