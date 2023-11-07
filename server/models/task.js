@@ -1,7 +1,8 @@
 const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
 
-const taskSchema = new mongoose.Schema({
-    taskDescription: {
+const taskSchema = new Schema({
+    name: {
         type: String,
         required: true,
         trim: true
@@ -9,14 +10,14 @@ const taskSchema = new mongoose.Schema({
     notes: {
         type: String,
         trim: true,
-        default: null
+        default: ''
     },
     priority: {
         type: String,
         enum: ['low', 'medium', 'high'],
         default: 'medium'
     },
-    dueDate: { // create a remider based on duedate or custome set 
+    dueDate: {
         type: Date,
         default: null
     },
@@ -26,10 +27,10 @@ const taskSchema = new mongoose.Schema({
         default: 'not-started'
     },
     tags: {
-        type: [String], // Array of strings to allow multiple tags
+        type: [String],
         default: []
     },
-    reminder: { // add server function to send user reminder to user that it is due
+    reminder: {
         type: Date,
         default: null
     },
@@ -37,9 +38,27 @@ const taskSchema = new mongoose.Schema({
         type: Date,
         default: Date.now
     },
-    completedDate: { // add server function to calculate the date that it was completed
+    completedDate: {
         type: Date,
         default: null
+    },
+    // Optional reference to an Assignment
+    assignment: {
+        type: Schema.Types.ObjectId,
+        ref: 'Assignment',
+        required: false
+    },
+    // Optional reference to a Course
+    course: {
+        type: Schema.Types.ObjectId,
+        ref: 'Course',
+        required: false
+    },
+    // Direct relationship to the User
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
     }
 });
 

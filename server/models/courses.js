@@ -1,8 +1,9 @@
+//course.js
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
 const courseSchema = new Schema({
-    courseName: {
+    name: {
         type: String,
         required: true,
         trim: true
@@ -10,6 +11,10 @@ const courseSchema = new Schema({
     term: {
         type: String,
         enum: ['winter', 'summer', 'fall'],
+        required: true
+    },
+    year: {
+        type: Number,
         required: true
     },
     assignments: [{
@@ -20,13 +25,17 @@ const courseSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Test'
     }],
+    totalGrades: {
+        type: Number,
+        default: 0
+    },
     tasks: [{
         type: Schema.Types.ObjectId,
         ref: 'Task'
     }],
 
     // Virtual fields
-    numberOfAssignments: {
+    numberOfAssignments: { // this should be caluclated by the server and updated 
         type: Number,
         default: 0,
         required: true,
@@ -34,7 +43,7 @@ const courseSchema = new Schema({
             return this.assignments.length;
         }
     },
-    numberOfTests: {
+    numberOfTests: { // this should be caluclated by the server and updated 
         type: Number,
         default: 0,
         required: true,
@@ -42,7 +51,7 @@ const courseSchema = new Schema({
             return this.tests.length;
         }
     },
-    numberOfTasks: {
+    numberOfTasks: { // this should be caluclated by the server and updated 
         type: Number,
         default: 0,
         required: true,
