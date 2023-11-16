@@ -1,7 +1,10 @@
 //user.js
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
-
+// Create a list to store reward objects + 
+// create a reward model - a model can have - date achived, type of award, 
+// shoudl we a dd a list of total grades from each course ?
+// create a resourse model 
 const userSchema = new Schema({
     username: {
         type: String,
