@@ -1,0 +1,302 @@
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const assignmentSchema = new Schema({
+    name: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    deadline: {
+        type: Date,
+        required: true
+    },
+    urlLink: {
+        type: String,
+        trim: true,
+        default: null
+    },
+    status: {
+        type: String,
+        enum: ['not-started', 'in-progress', 'completed'],
+        default: 'not-started'
+    },
+    priority: {
+        type: String,
+        enum: ['low', 'medium', 'high'],
+        default: 'medium'
+    },
+    reminder: {
+        type: Date,
+        default: null
+    },
+    isComplete: {
+        type: Boolean,
+        default: false
+    },
+    grade: {
+        type: Number,
+        min: 0, // Assuming grade cannot be negative
+        max: 100, // Assuming the maximum grade is 100
+        default: null // Grade can be null if not yet graded
+    },
+    // Assuming each assignment belongs to a course
+    course: {
+        type: Schema.Types.ObjectId,
+        ref: 'Course',
+        required: true
+    },
+    tasks: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Task'
+    }]
+});
+
+const Assignment = mongoose.model('Assignment', assignmentSchema);
+
+module.exports = Assignment;
+
+//course.js
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const courseSchema = new Schema({
+    name: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    term: {
+        type: String,
+        enum: ['winter', 'summer', 'fall'],
+        required: true
+    },
+    year: {
+        type: Number,
+        required: true
+    },
+    assignments: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Assignment'
+    }],
+    tests: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Test'
+    }],
+    totalGrades: {
+        type: Number,
+        default: 0
+    },
+    tasks: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Task'
+    }],
+
+    // Virtual fields
+    numberOfAssignments: { // this should be caluclated by the server and updated 
+        type: Number,
+        default: 0,
+        required: true,
+        get: function() {
+            return this.assignments.length;
+        }
+    },
+    numberOfTests: { // this should be caluclated by the server and updated 
+        type: Number,
+        default: 0,
+        required: true,
+        get: function() {
+            return this.tests.length;
+        }
+    },
+    numberOfTasks: { // this should be caluclated by the server and updated 
+        type: Number,
+        default: 0,
+        required: true,
+        get: function() {
+            return this.tasks.length;
+        }
+    }
+});
+
+// Enable virtuals
+courseSchema.set('toObject', { virtuals: true });
+courseSchema.set('toJSON', { virtuals: true });
+
+const Course = mongoose.model('Course', courseSchema);
+
+module.exports = Course;
+
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const taskSchema = new Schema({
+    name: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    notes: {
+        type: String,
+        trim: true,
+        default: ''
+    },
+    priority: {
+        type: String,
+        enum: ['low', 'medium', 'high'],
+        default: 'medium'
+    },
+    dueDate: {
+        type: Date,
+        default: null
+    },
+    status: {
+        type: String,
+        enum: ['not-started', 'in-progress', 'completed'],
+        default: 'not-started'
+    },
+    tags: {
+        type: [String],
+        default: []
+    },
+    reminder: {
+        type: Date,
+        default: null
+    },
+    dateCreated: {
+        type: Date,
+        default: Date.now
+    },
+    completedDate: {
+        type: Date,
+        default: null
+    },
+    // Optional reference to an Assignment
+    assignment: {
+        type: Schema.Types.ObjectId,
+        ref: 'Assignment',
+        required: false
+    },
+    // Optional reference to a Course
+    course: {
+        type: Schema.Types.ObjectId,
+        ref: 'Course',
+        required: false
+    },
+    // Direct relationship to the User
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    }
+});
+
+const Task = mongoose.model('Task', taskSchema);
+
+module.exports = Task;
+
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
+const testSchema = new Schema({
+    name: {
+        type: String,
+        required: true,
+        trim: true
+    },
+    date: {
+        type: Date,
+        required: true
+    },
+    course: {
+        type: Schema.Types.ObjectId,
+        ref: 'Course',
+        required: true
+    },
+    type: {
+        type: String,
+        enum: ['final', 'midterm', 'quiz'],
+        required: true
+    },
+    grade: {
+        type: Number,
+        required: false, // This may be false if the grade isn't initially known
+        min: 0, // Assuming grades can't be negative
+        max: 100 // Assuming 100 is the highest possible score
+    }
+});
+
+// Indexes
+// Virtuals or methods to compute properties
+// Assuming you need a method to compute pass/fail based on grade
+testSchema.method('isPassed', function(passingGrade = 50) {
+    return this.grade >= passingGrade;
+});
+
+const Test = mongoose.model('Test', testSchema);
+
+module.exports = Test;
+
+//user.js
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+// Create a list to store reward objects + 
+// create a reward model - a model can have - date achived, type of award, 
+// shoudl we a dd a list of total grades from each course ?
+// create a resourse model 
+const userSchema = new Schema({
+    username: {
+        type: String,
+        required: true,
+        unique: true,
+        trim: true,
+        minlength: 3
+    },
+    email: {
+        type: String,
+        required: true,
+        unique: true,
+        lowercase: true,
+    },
+    password: {
+        type: String,
+        required: true,
+        minlength: 6
+    },
+    dateCreated: {
+        type: Date,
+        default: Date.now
+    },
+    courses: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Course'
+    }],
+    tasks: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Task'
+    }],
+    assignments: [{
+        type: Schema.Types.ObjectId,
+        ref: 'Assignment'
+    }],
+    grades: [{
+        course: {
+            type: Schema.Types.ObjectId,
+            ref: 'Course'
+        },
+        grade: {
+            type: Number,
+            required: true
+        }
+    }],
+    resources: [{
+        // Assuming resources are just URLs; adjust if they are more complex
+        type: String,
+        trim: true,
+    }],
+    // ... other fields ...
+});
+
+const User = mongoose.model('User', userSchema);
+
+module.exports = User;
