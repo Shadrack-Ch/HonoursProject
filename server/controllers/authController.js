@@ -41,25 +41,19 @@ const authenticateUser = async (req, res) => {
 
         // Compare passwords
         const isMatch = await bcrypt.compare(req.body.password, user.password);
-        if (isMatch) {
-            const token = tokenService.generateToken(user._id);
-            user.tokens = user.tokens.concat({ token }); // Save the token
-            await user.save();
-            res.send({ user: { username: user.username, email: user.email }, token });
-        }
-
         if (!isMatch) {
             return res.status(401).json({ message: 'Authentication failed' });
         }
 
-        // User authenticated successfully
-        // res.json({ message: 'User authenticated successfully', user });
-        const token = tokenService.generateToken(user._id); // Using tokenService for generating token
-        res.send({ user, token });
+        const token = tokenService.generateToken(user._id);
+        user.tokens = user.tokens.concat({ token }); // Save the token
+        await user.save();
+        res.send({ user: { username: user.username, email: user.email }, token });
     } catch (error) {
         res.status(500).json({ message: 'Error in authentication', error: error });
     }
 };
+
 
 const refreshToken = async (req, res) => {
     try {
