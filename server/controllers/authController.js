@@ -1,6 +1,8 @@
 // controllers/authenticationController.js
 const bcrypt = require('bcryptjs');
 const User = require('../models/user');
+const jwt = require('jsonwebtoken');
+const tokenService = require('../services/tokenService');
 
 // Function to register a new user
 const registerUser = async (req, res) => {
@@ -21,7 +23,7 @@ const registerUser = async (req, res) => {
         // Save the user
         await newUser.save();
 
-        res.status(201).json({ message: 'User registered successfully', user: newUser });
+        res.status(201).json({ message: 'User registered successfully', user: { username: newUser.username, email: newUser.email } });
     } catch (error) {
         res.status(500).json({ message: 'Error registering user', error: error });
         console.log(error)
@@ -39,18 +41,45 @@ const authenticateUser = async (req, res) => {
 
         // Compare passwords
         const isMatch = await bcrypt.compare(req.body.password, user.password);
+        if (isMatch) {
+            const token = tokenService.generateToken(user._id);
+            user.tokens = user.tokens.concat({ token }); // Save the token
+            await user.save();
+            res.send({ user: { username: user.username, email: user.email }, token });
+        }
+
         if (!isMatch) {
             return res.status(401).json({ message: 'Authentication failed' });
         }
 
         // User authenticated successfully
-        res.json({ message: 'User authenticated successfully', user });
+        // res.json({ message: 'User authenticated successfully', user });
+        const token = tokenService.generateToken(user._id); // Using tokenService for generating token
+        res.send({ user, token });
     } catch (error) {
         res.status(500).json({ message: 'Error in authentication', error: error });
     }
 };
 
+const refreshToken = async (req, res) => {
+    try {
+        const { refreshToken } = req.body;
+        const decoded = jwt.verify(refreshToken, process.env.JWT_REFRESH_SECRET);
+        const user = await User.findById(decoded._id);
+
+        if (!user) {
+            return res.status(401).send({ error: 'Please authenticate.' });
+        }
+
+        const newToken = tokenService.generateToken(user._id);
+        res.send({ token: newToken });
+    } catch (error) {
+        res.status(401).send({ error: 'Invalid token' });
+    }
+};
+
 module.exports = {
     registerUser,
-    authenticateUser
+    authenticateUser,
+    refreshToken
 };

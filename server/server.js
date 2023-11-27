@@ -1,4 +1,5 @@
 // Importing necessary modules
+require('dotenv').config();
 const express = require('express');
 const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
@@ -11,12 +12,14 @@ const authRoutes = require('./routes/authRoutes');
 const courseRoutes = require('./routes/courseRoutes');
 const assignmentRoutes = require('./routes/assignmentRoutes');
 const userRoutes = require('./routes/userRoutes'); // Importing user routes
+const testRoutes = require('./routes/testRoutes');
 
 // Initializing the Express app
 const app = express();
 
 // Database connection string
 const dbURI =  "mongodb+srv://Cluster55809:e3dibUtffE1u@cluster55809.c7touiq.mongodb.net/honours_project?retryWrites=true&w=majority";
+// const dbURI = process.env.DB_URI; // Using environment variable for database URI
 
 // Connecting to the database
 mongoose.connect(dbURI, { useNewUrlParser: true, useUnifiedTopology: true })
@@ -28,6 +31,7 @@ app.use(cors()); // Handling CORS
 app.use(bodyParser.json()); // Parsing JSON bodies
 app.use(bodyParser.urlencoded({ extended: true })); // Parsing URL-encoded bodies
 app.use(session({ secret: 'your_secret_key', resave: false, saveUninitialized: false }));
+// app.use(session({ secret: process.env.SESSION_SECRET, resave: false, saveUninitialized: false }));
 app.use(passport.initialize());
 app.use(passport.session());
 // Add other middleware as needed
@@ -35,8 +39,9 @@ app.use(passport.session());
 // Setting up routes
 app.use('/auth', authRoutes);
 app.use('/course', courseRoutes);
-// app.use('/assignment', assignmentRoutes);
+app.use('/assignment', assignmentRoutes);
 app.use('/user', userRoutes); // Adding user routes
+app.use('/test', testRoutes);
 
 // Handling 404 - Not Found
 app.use((req, res, next) => {

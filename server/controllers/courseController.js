@@ -2,12 +2,10 @@ const Course = require('../models/courses');
 
 const addNewCourse = async (req, res) => {
     try {
-        //add check if course exists
+        // add check to see if user already has this course, aboid duplicates
         const newCourse = new Course({
-            name: req.body.name,
-            term: req.body.term,
-            year: req.body.year,
-            // Initialize other fields if necessary
+            ...req.body,
+            user: req.user._id, // Linking course to the logged-in user
         });
 
         await newCourse.save();
@@ -21,17 +19,15 @@ const addNewCourse = async (req, res) => {
 // here the whole course object is sent and updated 
 const updateCourseDetails = async (req, res) => {
     try {
-        const updatedCourse = await Course.findByIdAndUpdate(
-            req.params.courseId,
-            req.body,
-            { new: true }  // Return the updated object
-        );
+        const course = await Course.findOne({ _id: req.params.courseId, user: req.user._id });
 
-        if (!updatedCourse) {
-            return res.status(404).json({ message: 'Course not found' });
+        if (!course) {
+            return res.status(404).json({ message: 'Course not found or not authorized' });
         }
 
-        res.json(updatedCourse);
+        Object.assign(course, req.body);
+        await course.save();
+        res.json(course);
     } catch (error) {
         res.status(400).json({ message: 'Error updating course', error: error.message });
     }
@@ -39,10 +35,10 @@ const updateCourseDetails = async (req, res) => {
 
 const deleteCourse = async (req, res) => {
     try {
-        const course = await Course.findByIdAndDelete(req.params.courseId);
+        const course = await Course.findOneAndDelete({ _id: req.params.courseId, user: req.user._id });
 
         if (!course) {
-            return res.status(404).json({ message: 'Course not found' });
+            return res.status(404).json({ message: 'Course not found or not authorized' });
         }
 
         res.json({ message: 'Course deleted successfully' });
@@ -50,6 +46,7 @@ const deleteCourse = async (req, res) => {
         res.status(500).json({ message: 'Error deleting course', error: error.message });
     }
 };
+
 
 const getCourseDetails = async (req, res) => {
     try {

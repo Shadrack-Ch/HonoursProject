@@ -12,20 +12,11 @@
 const express = require('express');
 const router = express.Router();
 const courseController = require("../controllers/courseController");
+const authenticate = require('../middleware/authMiddleware'); // Ensure this is the correct path
 
-// Middleware placeholder for future authentication (to be implemented)
-// const authenticate = require('../middleware/authenticate');
-
-// Add New Course
-router.post('/', /* authenticate, */ courseController.addNewCourse);
-
-// Update Course Details
-router.put('/:courseId', /* authenticate, */ courseController.updateCourseDetails);
-
-// Get Course Details
-router.get('/:courseId', /* authenticate, */ courseController.getCourseDetails);
-
-// Delete Course
-router.delete('/:courseId', /* authenticate, */ courseController.deleteCourse);
+router.post('/', authenticate, courseController.addNewCourse);
+router.put('/:courseId', authenticate, courseController.updateCourseDetails);
+router.get('/:courseId', authenticate, courseController.getCourseDetails);
+router.delete('/:courseId', authenticate, courseController.deleteCourse);
 
 module.exports = router;

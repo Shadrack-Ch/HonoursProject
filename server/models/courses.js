@@ -33,6 +33,11 @@ const courseSchema = new Schema({
         type: Schema.Types.ObjectId,
         ref: 'Task'
     }],
+    user: {
+        type: Schema.Types.ObjectId,
+        ref: 'User',
+        required: true
+    },
 
     // Virtual fields
     numberOfAssignments: { // this should be caluclated by the server and updated 

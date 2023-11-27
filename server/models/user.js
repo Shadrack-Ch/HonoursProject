@@ -55,6 +55,12 @@ const userSchema = new Schema({
         type: String,
         trim: true,
     }],
+    tokens: [{
+        token: {
+            type: String,
+            required: true
+        }
+    }]
     // ... other fields ...
 });
 

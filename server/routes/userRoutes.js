@@ -22,36 +22,21 @@
 const express = require('express');
 const router = express.Router();
 const userController = require('../controllers/userController');
-
-// Middleware placeholder for future authentication (to be implemented)
-// const authenticate = require('../middleware/authenticate');
+const authenticate = require('../middleware/authMiddleware');
 
 // Update User Profile
-// Use authentication middleware to ensure only the authenticated user can update their profile
-router.put('/:userId', /* authenticate, */ userController.updateUserProfile);
+router.put('/update', authenticate, userController.updateUserProfile);
 
 // Delete User Account
-// Use authentication middleware to ensure only the authenticated user can delete their account
-router.delete('/:userId', /* authenticate, */ userController.deleteUserAccount);
-
-// Add Course to User
-// Use authentication middleware to ensure only the authenticated user can add a course
-router.post('/:userId/courses', /* authenticate, */ userController.addCourseToUser);
-
-// Unenroll User from Course
-// Use authentication middleware to ensure only the authenticated user can unenroll from a course
-router.put('/:userId/courses/:courseId/unenroll', /* authenticate, */ userController.unenrollUserFromCourse);
+router.delete('/delete', authenticate, userController.deleteUserAccount);
 
 // List User's Courses for a Specific Term
-// Use authentication middleware to ensure only the authenticated user can access their courses for a term
-router.get('/:userId/courses/term/:term', /* authenticate, */ userController.listUsersCoursesForTerm);
+router.get('/courses/term/:term', authenticate, userController.listUsersCoursesForTerm);
 
 // List All User's Courses
-// Use authentication middleware to ensure only the authenticated user can access their courses
-router.get('/:userId/courses', /* authenticate, */ userController.listAllUsersCourses);
+router.get('/courses', authenticate, userController.listAllUsersCourses);
 
 // List User's Courses by Specific Year
-// Use authentication middleware to ensure only the authenticated user can access their courses for a year
-router.get('/:userId/courses/year/:year', /* authenticate, */ userController.listUsersCoursesByYear);
+router.get('/courses/year/:year', authenticate, userController.listUsersCoursesByYear);
 
 module.exports = router;
