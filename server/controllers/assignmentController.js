@@ -6,6 +6,7 @@ const createNewAssignment = async (req, res) => {
     try {
         const userId = req.user._id;
         const course = await Course.findById(req.body.courseId);
+        //console.log(req.body)
 
         if (!course || !course.user.equals(userId)) {
             return res.status(403).json({ message: 'Not authorized to add assignments to this course' });
@@ -113,7 +114,9 @@ const markAssignmentComplete = async (req, res) => {
 // Assign Grade to Assignment
 const assignGrade = async (req, res) => {
     try {
-        const assignment = await Assignment.findOne({ _id: req.params.assignmentId, course: req.body.courseId });
+        
+        const assignmentId = req.params.assignmentId;
+        const assignment = await Assignment.findById(assignmentId);
         if (!assignment) {
             return res.status(404).json({ message: 'Assignment not found' });
         }

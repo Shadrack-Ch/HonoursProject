@@ -13,6 +13,7 @@ const courseRoutes = require("./routes/courseRoutes");
 const assignmentRoutes = require("./routes/assignmentRoutes");
 const userRoutes = require("./routes/userRoutes"); // Importing user routes
 const testRoutes = require("./routes/testRoutes");
+const taskRoutes = require('./routes/taskRoutes');
 
 // Initializing the Express app
 const app = express();
@@ -51,6 +52,7 @@ app.use("/course", courseRoutes);
 app.use("/assignment", assignmentRoutes);
 app.use("/user", userRoutes); // Adding user routes
 app.use("/test", testRoutes);
+app.use('/tasks', taskRoutes);
 
 // Handling 404 - Not Found
 app.use((req, res, next) => {
