@@ -6,7 +6,6 @@ const createNewAssignment = async (req, res) => {
     try {
         const userId = req.user._id;
         const course = await Course.findById(req.body.courseId);
-        //console.log(req.body)
 
         if (!course || !course.user.equals(userId)) {
             return res.status(403).json({ message: 'Not authorized to add assignments to this course' });
@@ -18,6 +17,10 @@ const createNewAssignment = async (req, res) => {
         });
 
         await newAssignment.save();
+
+        // Update user's assignments array
+        await User.findByIdAndUpdate(userId, { $push: { assignments: newAssignment._id } });
+
         res.status(201).json(newAssignment);
     } catch (error) {
         res.status(400).json({ message: 'Error creating new assignment', error: error.message });
@@ -57,12 +60,15 @@ const deleteAssignment = async (req, res) => {
         }
 
         await assignment.remove();
+
+        // Update user's assignments array
+        await User.findByIdAndUpdate(userId, { $pull: { assignments: assignmentId } });
+
         res.json({ message: 'Assignment deleted successfully' });
     } catch (error) {
         res.status(500).json({ message: 'Error deleting assignment', error: error.message });
     }
 };
-
 
 const listAllUserAssignments = async (req, res) => {
     try {

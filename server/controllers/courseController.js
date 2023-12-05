@@ -2,13 +2,21 @@ const Course = require('../models/courses');
 
 const addNewCourse = async (req, res) => {
     try {
-        // add check to see if user already has this course, aboid duplicates
+        const existingCourse = await Course.findOne({ name: req.body.name, user: req.user._id });
+        if (existingCourse) {
+            return res.status(400).json({ message: 'Course already exists' });
+        }
+
         const newCourse = new Course({
             ...req.body,
             user: req.user._id, // Linking course to the logged-in user
         });
 
         await newCourse.save();
+
+        // Update user's courses array
+        await User.findByIdAndUpdate(req.user._id, { $push: { courses: newCourse._id } });
+
         res.status(201).json(newCourse);
     } catch (error) {
         res.status(400).json({ message: 'Error adding new course', error: error.message });
@@ -40,6 +48,9 @@ const deleteCourse = async (req, res) => {
         if (!course) {
             return res.status(404).json({ message: 'Course not found or not authorized' });
         }
+
+        // Update user's courses array
+        await User.findByIdAndUpdate(req.user._id, { $pull: { courses: req.params.courseId } });
 
         res.json({ message: 'Course deleted successfully' });
     } catch (error) {
