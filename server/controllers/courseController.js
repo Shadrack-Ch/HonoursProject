@@ -7,6 +7,8 @@ const addNewCourse = async (req, res) => {
             return res.status(400).json({ message: 'Course already exists' });
         }
 
+        console.log(req.user._id)
+
         const newCourse = new Course({
             ...req.body,
             user: req.user._id, // Linking course to the logged-in user
