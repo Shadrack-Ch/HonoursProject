@@ -1,0 +1,129 @@
+Given the user.js model in your project, which includes various fields like courses, tasks, assignments, grades, and resources, here is a list of potential user manipulations (CRUD operations and more) that might be relevant:
+
+User Registration: Create a new user account with username, email, and password.
+
+User Authentication: Log in and authenticate users.
+
+Update User Profile: Update user details like username, email, or password.
+
+Delete User Account: Remove a user account from the system.
+
+Add Course to User: Associate a new course with the user.
+
+Remove Course from User: Disassociate a course from the user.
+
+List User Courses: Retrieve a list of all courses associated with the user.
+
+Add Task to User: Add a new task to the user's list.
+
+Update Task for User: Modify details of an existing task.
+
+Remove Task from User: Delete a task from the user's list.
+
+List User Tasks: Retrieve all tasks associated with the user.
+
+Add Assignment to User: Add a new assignment.
+
+Update Assignment for User: Update details of an existing assignment.
+
+Remove Assignment from User: Delete an assignment from the user's list.
+
+List User Assignments: Retrieve all assignments associated with the user.
+
+Record User Grades: Add or update grades for a particular course.
+
+List User Grades: Retrieve all grades associated with the user.
+
+Add Resource to User: Add a new resource link or detail.
+
+Remove Resource from User: Delete a resource from the user's list.
+
+List User Resources: Retrieve all resources associated with the user.
+
+Password Reset/Recovery: Functionality to reset or recover a user's password.
+
+Account Verification: Email or other means of verifying a new user account.
+
+View User Profile: Retrieve the details of a user's profile.
+
+Reward System Integration: If you decide to implement a reward system, you might include operations to award, update, and list rewards.
+
+User Dashboard Data: Aggregating user data to display on a dashboard (like upcoming tasks, recent grades, etc.).
+
+------------------------------------ xoxoxoxoxoxox ------------------------------------ xoxoxoxoxoxox ---------------------------
+
+Add New Course: Create a new course with details like name, term, and year.
+
+Update Course Details: Modify existing course information (e.g., change the name, term, or year).
+
+Delete Course: Remove a course from the system.
+
+
+Get Course Details: Fetch detailed information about a specific course.
+
+
+List User's Courses: Retrieve a list of courses that a specific user is enrolled in.
+
+Add Assignment to Course: Link a new assignment to a course.
+
+Remove Assignment from Course: Unlink an assignment from a course.
+
+Add Test to Course: Add a new test to a course.
+
+Remove Test from Course: Remove a test from a course.
+
+Add Task to Course: Link a new task to a course.
+
+Remove Task from Course: Unlink a task from a course.
+
+Calculate and Update Total Grades: Compute the total grades for a course based on assignments and tests, and update the course record.
+
+Update Course Statistics: Automatically update fields like numberOfAssignments, numberOfTests, and numberOfTasks whenever assignments, tests, or tasks are added or removed.
+
+------------------------------------ xoxoxoxoxoxox ------------------------------------ xoxoxoxoxoxox ---------------------------
+
+Based on the assignment.js model you provided, several user manipulations related to assignments can be implemented in your project. Here's a list of potential functionalities:
+
+Create New Assignment: Add a new assignment with details like name, deadline, URL link, status, priority, reminder, etc.
+
+Update Assignment: Modify existing assignment details, such as changing its name, deadline, status, priority, or other fields.
+
+Delete Assignment: Remove an assignment from the system.
+
+List All Assignments: Retrieve a list of all assignments, possibly with filters like status, priority, or course.
+
+Get Assignment Details: Fetch detailed information about a specific assignment.
+
+Mark Assignment as Complete: Update an assignment's isComplete status to true.
+
+Assign Grade to Assignment: Update the grade for a completed assignment.
+
+List Assignments by Course: Retrieve all assignments associated with a specific course.
+
+List Assignments by Status: Retrieve all assignments filtered by their status (e.g., not-started, in-progress, completed).
+
+Set or Update Assignment Reminder: Set or update a reminder for an assignment.
+
+Add Task to Assignment: Link a new task to an assignment.
+
+Remove Task from Assignment: Unlink a task from an assignment.
+
+------------------------------------ xoxoxoxoxoxox ------------------------------------ xoxoxoxoxoxox ---------------------------
+
+Given your Test model and its relationship to users and courses, the following user manipulations could take place within your application:
+
+Add Test to Course: Users can add a new test to a course they are enrolled in or own. This involves creating a new Test document linked to a specific Course.
+
+Update Test Details: Users can update the details of a test (like the name, date, type) if they own the corresponding course.
+
+Delete Test: Users can delete a test from a course if they own the course.
+
+Assign/Update Test Grade: Users can assign or update the grade for a test. This might be restricted to users with specific roles (like instructors) within the course.
+
+List Tests for a Course: Users can list all tests associated with a specific course they are enrolled in or own.
+
+Get Test Details: Users can view details of a specific test within a course they are enrolled in or own.
+
+List Tests by Type: Users might want to filter and list tests by their type (e.g., 'final', 'midterm', 'quiz') within a course.
+
+Compute Pass/Fail Status: Users can check if they have passed or failed a test based on the grade, using the isPassed method.
