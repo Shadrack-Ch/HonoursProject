@@ -1,6 +1,7 @@
 const Assignment = require('../models/assignment');
 const Course = require('../models/courses');
 const User = require('../models/user');
+const Test = require('../models/tests');
 
 async function calculateTotalGradeForCourse(courseId) {
     // Fetch all assignments and tests for the course
@@ -77,10 +78,15 @@ const deleteAssignment = async (req, res) => {
             return res.status(403).json({ message: 'Not authorized to delete this assignment' });
         }
 
-        await assignment.remove();
+        // Use findByIdAndDelete to remove the assignment
+        await Assignment.findByIdAndDelete(assignmentId);
 
-        // Update user's assignments array
-        await User.findByIdAndUpdate(userId, { $pull: { assignments: assignmentId } });
+        // Fetch the user, update the assignments array, and save
+        const user = await User.findById(userId);
+        if (user) {
+            user.assignments = user.assignments.filter(a => a.toString() !== assignmentId.toString());
+            await user.save();
+        }
 
         res.json({ message: 'Assignment deleted successfully' });
     } catch (error) {
@@ -88,11 +94,19 @@ const deleteAssignment = async (req, res) => {
     }
 };
 
+
 const listAllUserAssignments = async (req, res) => {
     try {
-        const userId = req.user._id;
-        const assignments = await Assignment.find({ 'course.user': userId }).populate('course');
-        res.json(assignments);
+        const userId = req.user._id; 
+        // Find the user and populate the assignments field
+        const user = await User.findById(userId).populate('assignments');
+
+        if (!user) {
+            return res.status(404).json({ message: 'User not found' });
+        }
+
+        // Respond with the user's assignments
+        res.json(user.assignments);
     } catch (error) {
         res.status(500).json({ message: 'Error retrieving assignments', error: error.message });
     }

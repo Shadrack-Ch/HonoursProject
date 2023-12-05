@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node server.js",
+    "start": "nodemon server.js",
     "format": "prettier --loglevel warn --write \"/**/*.{jsx,js}\""
   },
   "author": "",
@@ -24,6 +24,7 @@
     "passport": "^0.6.0"
   },
   "devDependencies": {
+    "nodemon": "^3.0.2",
     "prettier": "3.1.0"
   }
 }

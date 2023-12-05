@@ -1,4 +1,6 @@
 const Course = require('../models/courses');
+const User = require('../models/user');
+const Assignment = require('../models/assignment');
 
 const addNewCourse = async (req, res) => {
     try {
