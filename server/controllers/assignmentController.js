@@ -2,6 +2,24 @@ const Assignment = require('../models/assignment');
 const Course = require('../models/courses');
 const User = require('../models/user');
 
+async function calculateTotalGradeForCourse(courseId) {
+    // Fetch all assignments and tests for the course
+    const assignments = await Assignment.find({ course: courseId });
+    const tests = await Test.find({ course: courseId });
+
+    // Aggregate grades
+    let totalGrade = 0;
+    assignments.forEach(assignment => {
+        totalGrade += assignment.grade || 0;
+    });
+    tests.forEach(test => {
+        totalGrade += test.grade || 0;
+    });
+
+    return totalGrade;
+}
+
+
 const createNewAssignment = async (req, res) => {
     try {
         const userId = req.user._id;
@@ -120,15 +138,31 @@ const markAssignmentComplete = async (req, res) => {
 // Assign Grade to Assignment
 const assignGrade = async (req, res) => {
     try {
-        
         const assignmentId = req.params.assignmentId;
-        const assignment = await Assignment.findById(assignmentId);
+        const grade = req.body.grade;
+        const assignment = await Assignment.findById(assignmentId).populate('course');
+
         if (!assignment) {
             return res.status(404).json({ message: 'Assignment not found' });
         }
 
-        assignment.grade = req.body.grade;
+        // Update assignment grade
+        assignment.grade = grade;
         await assignment.save();
+
+        // Calculate total grade for the course
+        const totalGrade = await calculateTotalGradeForCourse(assignment.course._id);
+
+        const user = await User.findById(req.user._id);
+        const gradeIndex = user.grades.findIndex(g => g.course.toString() === assignment.course._id.toString());
+
+        if (gradeIndex >= 0) {
+            user.grades[gradeIndex].grade = totalGrade;
+        } else {
+            user.grades.push({ course: assignment.course._id, grade: totalGrade });
+        }
+        await user.save();
+
         res.json({ message: 'Grade assigned to assignment', assignment });
     } catch (error) {
         res.status(500).json({ message: 'Error assigning grade', error: error.message });
